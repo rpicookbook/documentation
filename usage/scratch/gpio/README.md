@@ -104,7 +104,7 @@ Here is an example wiring layout using pin 16 as the trigger and 26 as the echo:
 
 ![gpio ultrasonic wiring layout](images/gpio-ultrasonic.png)
 
-If you use this wiring setup with the script in **Sensors and Motors/gpio-ultrasonicDemo**, you will see how to read the distance and move a sprite accordigly. The other ultrasonic demo in **Sensor and Motors/gpio-ultrasonicIntruderAlarm** requires a Camera Module, and will take a snapshot when anyone gets too close.
+If you use this wiring setup with the script in **Sensors and Motors/gpio-ultrasonicDemo**, you will see how to read the distance and move a sprite accordingly. The other ultrasonic demo in **Sensor and Motors/gpio-ultrasonicIntruderAlarm** requires a Camera Module, and will take a snapshot when anyone gets too close.
 
 #### Weather reports
 - `getweather + city name + , + country two-letter code + , + your user key from [OpenWeatherMaps](http://www.openweathermaps.org)` will create sensor variables for the named city's temperature, wind speed and direction, rainfall, and cloud cover. You must sign up to get a key from them (free accounts are available). See [OpenWeatherMaps](http://www.openweathermaps.org) for details.
@@ -195,7 +195,7 @@ There are also eight input sensor variables, named `Input1` to `Input8`, which h
 
 This provides a nice big red button, three large LEDs, four digital inputs, four digital outputs, and a loud buzzer. To use this board, set `AddOn` to `Pibrella`.
 
-#####Commands suported
+#####Commands supported
 
 - `[ red | yellow | green ] + [ on | high | off | low ]` e.g. `yellowhigh`
 - `Buzzer + (0 .. 4000)` e.g. `buzzer2100`
@@ -288,7 +288,7 @@ To use this board, set `AddOn` to `SenseHAT`.
 
 #### Pi-LITE
 
-The Pi-LITE board provides a simple array of white LEDs that can be addressed individually or treated as a scrolling text display, a bar graph, or a VU meter. It works via the GPIO serial port and presents some interesting challenges, especially setting up the serial connection as detailed in [RaspberryPi-Spy's Pi-LITE instructions] (http://www.raspberrypi-spy.co.uk/2013/09/how-to-setup-the-pi-lite-led-matrix-board/).
+The Pi-LITE board provides a simple array of white LEDs that can be addressed individually or treated as a scrolling text display, a bar graph, or a VU meter. It works via the GPIO serial port and presents some interesting challenges, especially setting up the serial connection as detailed in [RaspberryPi-Spy's Pi-LITE instructions](http://www.raspberrypi-spy.co.uk/2013/09/how-to-setup-the-pi-lite-led-matrix-board/).
 
 To use this board, set `AddOn` to `PiLite`.
 

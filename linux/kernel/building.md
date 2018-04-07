@@ -22,7 +22,7 @@ Configure the kernel; as well as the default configuration, you may wish to [con
 
 Run the following commands, depending on your Raspberry Pi version.
 
-### Raspberry Pi 1 (or Compute Module) default build configuration
+### Raspberry Pi 1, Pi 0, Pi 0W, and Compute Module default build configuration
 
 ```bash
 cd linux
@@ -30,7 +30,7 @@ KERNEL=kernel
 make bcmrpi_defconfig
 ```
 
-### Raspberry Pi 2/3 default build configuration
+### Raspberry Pi 2, Pi 3, and Compute Module 3 default build configuration
 
 ```bash
 cd linux
@@ -60,13 +60,22 @@ You can either do this using VirtualBox (or VMWare) on Windows, or install it di
 
 ### Install toolchain
 
-Use the following command to install the toolchain:
+Use the following command to download the toolchain to the home folder:
 
 ```bash
-git clone https://github.com/raspberrypi/tools
+git clone https://github.com/raspberrypi/tools ~/tools
 ```
 
-You can then copy the `/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian` directory to a common location, and add `/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin` to your $PATH in the `.bashrc` in your home directory. For 64-bit host systems, use `/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin`. While this step isn't strictly necessary, it does make it easier for later command lines!
+Updating the $PATH environment variable makes the system aware of file locations needed for cross-compilation. On a 32-bit host system you can update and reload it using:
+```bash
+echo PATH=\$PATH:~/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian/bin >> ~/.bashrc
+source ~/.bashrc
+```
+If you are on a 64-bit host system, you should use:
+```bash
+echo PATH=\$PATH:~/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin >> ~/.bashrc
+source ~/.bashrc
+```
 
 ### Get sources
 
@@ -82,7 +91,7 @@ To build the sources for cross-compilation, there may be extra dependencies beyo
 
 Enter the following commands to build the sources and Device Tree files:
 
-For Pi 1 or Compute Module:
+For Pi 1, Pi 0, Pi 0 W, or Compute Module:
 
 ```bash
 cd linux
@@ -90,7 +99,7 @@ KERNEL=kernel
 make ARCH=arm CROSS_COMPILE=arm-linux-gnueabihf- bcmrpi_defconfig
 ```
 
-For Pi 2/3:
+For Pi 2, Pi 3, or Compute Module 3:
 
 ```bash
 cd linux
@@ -136,6 +145,7 @@ with `sdb6` being the FAT (boot) partition, and `sdb7` being the ext4 filesystem
 Mount these first, adjusting the partition numbers for NOOBS cards:
 
 ```bash
+mkdir mnt
 mkdir mnt/fat32
 mkdir mnt/ext4
 sudo mount /dev/sdb1 mnt/fat32

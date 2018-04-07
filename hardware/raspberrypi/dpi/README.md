@@ -6,13 +6,13 @@ This interface is controlled by the GPU firmware and can be programmed by a user
 
 ## GPIO Pins
 
-One of the alternate functions selectable on bank 0 of the Raspbery Pi GPIO is DPI (Display Parallel Interface) which is a simple clocked parallel interface (up to 8 bits of R, G and B; clock, enable, hsync, and vsync). This interface is available as alternate function 2 (ALT2) on GPIO bank 0:
+One of the alternate functions selectable on bank 0 of the Raspberry Pi GPIO is DPI (Display Parallel Interface) which is a simple clocked parallel interface (up to 8 bits of R, G and B; clock, enable, hsync, and vsync). This interface is available as alternate function 2 (ALT2) on GPIO bank 0:
 
 ![DPI Alternate GPIO function](dpi-altfn2.png)
 
-Note that there are various ways that the colour values can be presented on the DPI output pins in either 565, 666, or 24-bit modes (see the following table and the `otutput_format` part of the `dpi_output_format` parameter below):
+Note that there are various ways that the colour values can be presented on the DPI output pins in either 565, 666, or 24-bit modes (see the following table and the `output_format` part of the `dpi_output_format` parameter below):
 
-![DPI Colour Ouptut](dpi-packing.png)
+![DPI Colour Output](dpi-packing.png)
 
 ## Disable other GPIO peripherals
 

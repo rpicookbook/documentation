@@ -1,38 +1,32 @@
 # Installing operating system images on Mac OS
 
-On Mac OS you can use the command line `dd` tool, or the graphical tool Etcher to write the image to your SD card.
+[Etcher](README.md) is typically the easiest option for most users to write images to SD cards, so it is a good place to start. If you're looking for more advanced options on Mac OS, you can use the built-in graphical and command line tools below.
 
-## Installing operating system images using Etcher
-
-- Connect the SD card reader with the SD card inside. Note that it must be formatted as FAT32.
-- Download [Etcher](https://etcher.io/) and install it to your Mac's Applications folder.
-- Open `Etcher.app`, select the Raspberry Pi `.img` file you wish to write to the SD card from your Mac's hard drive.
-- After selecting the `.img` file in Step 1, you will now select the SD card you wish to write the `.img` file to.
-- Review your selections and click "Flash!" to begin writing data to the SD card. Once complete, you can eject the mounted SD card from your Mac using `Finder.app`.
+**Note**: use of the `dd` tool can overwrite any partition of your machine. If you specify the wrong device in the instructions below, you could delete your primary Mac OS partition. Please be careful.
 
 ## (Mostly) graphical interface
 
 - Connect the SD card reader with the SD card inside. Note that it must be formatted as FAT32.
-- From the Apple menu, choose "About This Mac", then click on "More info...". If you are using Mac OS X 10.8.x Mountain Lion or newer, you will then need to click on "System Report".
-- Click on "USB" (or "Card Reader" if using a built-in SD card reader), then search for your SD card in the upper-right section of the window. Click on it, then search for the BSD name in the lower-right section. It will look something like `diskn` where `n` is a number (for example, `disk4`). Make sure you take a note of this number.
-- Unmount the partition so that you will be allowed to overwrite the disk. To do this, open Disk Utility and unmount it. Do not eject it. If you eject it, you will have to reconnect it. Note that on Mac OS X 10.8.x Mountain Lion, "Verify Disk" (before unmounting) will display the BSD name as `/dev/disk1s2` or similar, allowing you to skip the previous two steps. Note down the number that appears after "disk", in this case the number "1".
+- From the Apple menu, choose 'About This Mac', then click on 'More info...'. If you are using Mac OS X 10.8.x Mountain Lion or newer, you will then need to click on 'System Report'.
+- Click on 'USB' (or 'Card Reader' if you are using a built-in SD card reader), then search for your SD card in the upper right section of the window. Click on it, then search for the BSD name in the lower right section. It will look something like `diskn` where `n` is a number (for example, `disk4`). Make sure you take a note of this number.
+- Unmount the partition so that you will be allowed to overwrite the disk. To do this, open Disk Utility and unmount it. Do not eject it. If you eject it, you will have to reconnect it. Note that on Mac OS X 10.8.x Mountain Lion, 'Verify Disk' (before unmounting) will display the BSD name as `/dev/disk1s2` or similar, allowing you to skip the previous two steps. Note down the number that appears after 'disk', in this case the number '1'.
 - From the terminal, run the following command:
 
     ```
-    sudo dd bs=1m if=path_of_your_image.img of=/dev/rdiskn
+    sudo dd bs=1m if=path_of_your_image.img of=/dev/rdiskn conv=sync
     ```
 
     Remember to replace `n` with the number that you noted before!
     
-    This will take a few minutes, depending on the image file size. You can check the progress by sending a SIGINFO signal                  (press **Ctrl+T**).
+    This will take a few minutes, depending on the image file size. You can check the progress by sending a SIGINFO signal                  (press Ctrl+T).
 
 
     - If this command fails, try using `disk` instead of `rdisk`:
     
        ```
-       sudo dd bs=1m if=path_of_your_image.img of=/dev/diskn
+       sudo dd bs=1m if=path_of_your_image.img of=/dev/diskn conv=sync
        ```
-This will take a few minutes, depending on the image file size. To check the progress open Activity Monitor, click the Disk tab and find the process with the name `dd`. If `dd` is not in the list, you may need to select All Processes from the View menu. The Bytes Read column will display the amount of data that has been read from the image. Compare that to the file size of the image to determine progress.
+This will take a few minutes, depending on the size of the image file. To check the progress, open Activity Monitor, click the Disk tab and find the process with the name `dd`. If `dd` is not in the list, you may need to select 'All Processes' from the View menu. The Bytes Read column will display the amount of data that has been read from the image. Compare that to the file size of the image to determine progress.
 
 
 ## Command line
@@ -41,7 +35,7 @@ This will take a few minutes, depending on the image file size. To check the pro
 
     `diskutil list`
 
-- Identify the disk (not partition) of your SD card e.g. `disk4`, not `disk4s1`.
+- Identify the disk (not the partition) of your SD card, e.g. `disk4`, not `disk4s1`.
 - Unmount your SD card by using the disk identifier, to prepare it for copying data:
 
     `diskutil unmountDisk /dev/disk<disk# from diskutil>`
@@ -50,48 +44,67 @@ This will take a few minutes, depending on the image file size. To check the pro
     
 - Copy the data to your SD card:
 
-    `sudo dd bs=1m if=image.img of=/dev/rdisk<disk# from diskutil>`
+    `sudo dd bs=1m if=image.img of=/dev/rdisk<disk# from diskutil> conv=sync`
 
-    where `disk` is your BSD name e.g. `sudo dd bs=1m if=2017-03-02-raspbian-jessie.img of=/dev/rdisk4`
+    where `disk` is your BSD name e.g. `sudo dd bs=1m if=2018-03-13-raspbian-stretch.img of=/dev/rdisk4 conv=sync`
 
     - This may result in a ``dd: invalid number '1m'`` error if you have GNU
     coreutils installed. In that case, you need to use a block size of `1M` in the `bs=` section, as follows:
 
-       `sudo dd bs=1M if=image.img of=/dev/rdisk<disk# from diskutil>`
+       `sudo dd bs=1M if=image.img of=/dev/rdisk<disk# from diskutil> conv=sync`
 
-    This will take a few minutes, depending on the image file size. You can check the progress by sending a `SIGINFO` signal (press `Ctrl+T`).
+    This will take a few minutes, depending on the image file size. You can check the progress by sending a `SIGINFO` signal (press Ctrl+T).
     
     - If this command still fails, try using `disk` instead of `rdisk`, for example:
     
        ```
-       sudo dd bs=1m if=2017-03-02-raspbian-jessie.img of=/dev/disk4
+       sudo dd bs=1m if=2018-03-13-raspbian-stretch.img of=/dev/disk4 conv=sync
        ```
        or
        ```
-       sudo dd bs=1M if=2017-03-02-raspbian-jessie.img of=/dev/disk4
+       sudo dd bs=1M if=2018-03-13-raspbian-stretch.img of=/dev/disk4 conv=sync
        ```
 
 ## Alternative method
 
-**Note: Some users have reported issues with using this method to create SD cards.**
+**Note**: Some users have reported issues with using this method to create SD cards, possibly because earlier versions of these instructions didn't note that it may be necessary to unmount multiple partitions on the SD card.
 
-These commands and actions need to be performed from an account that has administrator privileges.
+These commands and actions must be performed from an account that has administrator privileges.
 
-- From the terminal run `df -h`.
+- From the terminal run `df -h`.  For example:
+```
+$ df -h
+Filesystem      Size   Used  Avail Capacity iused      ifree %iused  Mounted on
+/dev/disk1     233Gi   73Gi  159Gi    32% 1552273 4293415006    0%   /
+devfs          189Ki  189Ki    0Bi   100%     654          0  100%   /dev
+map -hosts       0Bi    0Bi    0Bi   100%       0          0  100%   /net
+map auto_home    0Bi    0Bi    0Bi   100%       0          0  100%   /home
+```
 - Connect the SD card reader with the SD card inside.
-- Run `df -h` again and look for the new device that was not previously listed. Record the device name of the filesystem's partition, for example `/dev/disk3s1`.
-- Unmount the partition so that you will be allowed to overwrite the disk:
+- Run `df -h` again and look for the new device which was not previously listed. Record the device name(s) of the filesystem's partition(s), for example `/dev/disk3s5` and `/dev/disk3s1`.  Notice the last two lines:
+```
+$ df -h
+Filesystem      Size   Used  Avail Capacity iused      ifree %iused  Mounted on
+/dev/disk1     233Gi   73Gi  159Gi    32% 1552273 4293415006    0%   /
+devfs          189Ki  189Ki    0Bi   100%     654          0  100%   /dev
+map -hosts       0Bi    0Bi    0Bi   100%       0          0  100%   /net
+map auto_home    0Bi    0Bi    0Bi   100%       0          0  100%   /home
+/dev/disk3s5    60Mi   20Mi   40Mi    33%     512          0  100%   /Volumes/boot
+/dev/disk3s1   812Mi  740Mi   71Mi    92%       0          0  100%   /Volumes/RECOVERY
+```
+- Unmount the partition(s) so that you will be allowed to overwrite the disk:
 
     ```
+    sudo diskutil unmount /dev/disk3s5
     sudo diskutil unmount /dev/disk3s1
     ```
 
     Alternatively, open Disk Utility and unmount the partition of the SD card. Do not eject it. If you eject it, you will have to reconnect it.
-- Using the device name of the partition, work out the *raw device name* for the entire disk by omitting the final `s1` and replacing `disk` with `rdisk`. This is very important, as you will lose all data on the hard drive if you provide the wrong device name. Make sure the device name is the name of the whole SD card as described above, not just a partition of it: for example, `rdisk3`, not `rdisk3s1`. Similarly, you might have another SD drive name/number like `rdisk2` or `rdisk4`. You can check again by using the `df -h` command both before and after you insert your SD card reader into your Mac. For example: `/dev/disk3s1` becomes `/dev/rdisk3`.
+- Using the device name of the partition, work out the **raw device name** for the entire disk by omitting the final `s#` and replacing `disk` with `rdisk`. This is very important, as you will lose all data on the hard drive if you provide the wrong device name. Make sure the device name is the name of the whole SD card as described above, not just a partition of it, for example, `rdisk3`, not `rdisk3s1`. Similarly, you might have another SD drive name/number like `rdisk2` or `rdisk4`. You can check again by using the `df -h` command, both before and after you insert your SD card reader into your Mac. For example: `/dev/disk3s1` becomes `/dev/rdisk3`.
 - In the terminal, write the image to the card with this command, using the raw device name from above. Read the above step carefully to make sure that you use the correct `rdisk` number here:
     
     ```
-    sudo dd bs=1m if=2017-03-02-raspbian-jessie.img of=/dev/rdisk3
+    sudo dd bs=1m if=2018-03-13-raspbian-stretch.img of=/dev/rdisk3 conv=sync
     ```
 
     If the above command reports the error `dd: bs: illegal numeric value`, change the block size `bs=1m` to `bs=1M`.
@@ -104,7 +117,7 @@ These commands and actions need to be performed from an account that has adminis
     
     That command will also set the permissions on the device to allow writing. Now try the `dd` command again.
 
-    Note that `dd` will not provide any on-screen information until there is an error or it is finished. When the process is complete, information will be shown and the disk will re-mount. If you wish to view the progress, you can use `Ctrl-T`. This generates SIGINFO, the status argument of your terminal, and will display information on the process.
+    Note that `dd` will not provide any on-screen information until there is an error, or it is finished. When the process is complete, information will be shown and the disk will re-mount. If you wish to view the progress, you can use Ctrl-T. This generates SIGINFO, the status argument of your terminal, and will display information on the process.
 - After the `dd` command finishes, eject the card:
 
     ```

@@ -1,12 +1,12 @@
 # Raspberry Pi Camera Module
 
-This document describes the use of the three Raspberry Pi camera applications, as of January 8th 2015.
+This document describes the use of the four Raspberry Pi camera applications, as of February 19th 2018.
 
-There are three applications provided: `raspistill`, `raspivid`, and `raspistillyuv`. `raspistill` and `raspistillyuv` are very similar and are intended for capturing images; `raspivid` is for capturing video.
+There are four applications provided: `raspistill`, `raspivid`, `raspiyuv` and `raspividyuv`. `raspistill` and `raspiyuv` are very similar and are intended for capturing images; `raspivid` and `raspvidyuv` are for capturing video.
 
 All the applications are driven from the command line, and written to take advantage of the MMAL API which runs over OpenMAX. The MMAL API provides an easier to use system than that presented by OpenMAX. Note that MMAL is a Broadcom-specific API used only on Videocore 4 systems.
 
-The applications use up to four OpenMAX (MMAL) components: camera, preview, encoder, and null_sink. All applications use the camera component; `raspistill` uses the Image Encode component; `raspivid` uses the Video Encode component; and `raspistillyuv` doesn't use an encoder, and sends its YUV or RGB output directly from the camera component to file.
+The applications use up to four OpenMAX (MMAL) components: camera, preview, encoder, and null_sink. All applications use the camera component; `raspistill` uses the Image Encode component; `raspivid` uses the Video Encode component; and `raspiyuv` and `raspividyuv` don't use an encoder, and sends their YUV or RGB output directly from the camera component to file.
 
 The preview display is optional, but can be used full-screen or directed to a specific rectangular area on the display. If preview is disabled, the null_sink component is used to 'absorb' the preview frames. The camera must produce preview frames even if these aren't required for display, as they're used for calculating exposure and white balance settings.
 
@@ -252,7 +252,7 @@ DRC changes the images by increasing the range of dark areas, and decreasing the
 
 - off
 - low
-- medium
+- med
 - high
 
 By default, DRC is off.
@@ -273,7 +273,9 @@ Sets blue and red gains (as floating point numbers) to be applied when `-awb -of
 --mode,	-md
 ```
 
-Sets a specified sensor mode, disabling the automatic selection. Possible values are :
+Sets a specified sensor mode, disabling the automatic selection. Possible values depend on the version of the Camera Module being used: 
+
+Version 1.x (OV5647)
 
 |Mode| Size | Aspect Ratio |Frame rates | FOV | Binning |
 |----|------|--------------|------------|-----|---------|
@@ -285,6 +287,19 @@ Sets a specified sensor mode, disabling the automatic selection. Possible values
 |5|1296x730|16:9|1-49fps|Full|2x2|
 |6|640x480|4:3|42.1-60fps|Full|2x2 plus skip|
 |7|640x480|4:3|60.1-90fps|Full|2x2 plus skip|
+
+Version 2.x (IMX219)
+
+|Mode| Size | Aspect Ratio |Frame rates | FOV | Binning |
+|----|------|--------------|------------|-----|---------|
+|0| automatic selection |||||
+|1|1920x1080|16:9| 0.1-30fps|Partial|None|
+|2|3280x2464|4:3|0.1-15fps|Full|None|
+|3|3280x2464|4:3|0.1-15fps|Full|None|
+|4|1640x1232|4:3|0.1-40fps|Full|2x2|
+|5|1640x922|16:9|0.1-40fps|Full|2x2|
+|6|1280x720|16:9|40-90fps|Partial|2x2|
+|7|640x480|4:3|40-90fps|Partial|2x2|
 
 ```
 	--camselect,	-cs
@@ -461,9 +476,9 @@ The camera is run for the requested time (`-t`), and a capture can be initiated 
 kill -USR1 <process id of raspistill>
 ```
 
-### raspistillyuv
+### raspiyuv
 
-Many of the options for `raspistillyuv` are the same as those for `raspistill`. This section shows the differences.
+Many of the options for `raspiyuv` are the same as those for `raspistill`. This section shows the differences.
 
 Unsupported options:
 
@@ -478,7 +493,7 @@ Extra options :
 ```
 This option forces the image to be saved as RGB data with 8 bits per channel, rather than YUV420.
 
-Note that the image buffers saved in `raspistillyuv` are padded to a horizontal size divisible by 32, so there may be unused bytes at the end of each line. Buffers are also padded vertically to be divisible by 16, and in the YUV mode, each plane of Y,U,V is padded in this way.
+Note that the image buffers saved in `raspiyuv` are padded to a horizontal size divisible by 32, so there may be unused bytes at the end of each line. Buffers are also padded vertically to be divisible by 16, and in the YUV mode, each plane of Y,U,V is padded in this way.
 
 
 ### raspivid
@@ -600,7 +615,7 @@ Define whether the camera will start paused or will immediately start recording.
 --segment,	-sg		Segment the stream into multiple files
 ```
 
-Rather than creating a single file, the file is split into segments of approximately the numer of milliseconds specified. In order to provide different filenames, you should add  `%04d` or similar at the point in the filename where you want a segment count number to appear e.g:
+Rather than creating a single file, the file is split into segments of approximately the number of milliseconds specified. In order to provide different filenames, you should add  `%04d` or similar at the point in the filename where you want a segment count number to appear e.g:
 
 ```
 --segment 3000 -o video%04d.h264

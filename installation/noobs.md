@@ -31,7 +31,7 @@ To set up a blank SD card with NOOBS:
 
 ##### Windows
 
-For Windows users we recommend formatting your SD card using the SD Association's Formatting Tool, which can be downloaded from [sdcard.org](https://www.sdcard.org/downloads/formatter_4/). You will need to set "FORMAT SIZE ADJUSTMENT" option to "ON" in the "Options" menu to ensure that the entire SD card volume is formatted, and not just a single partition. The updated size will be shown after the format is complete.
+If you are a Windows user, we recommend formatting your SD card using the SD Association's Formatting Tool, which can be downloaded from [sdcard.org](https://www.sdcard.org/downloads/formatter_4/). Instructions for using the tool are available on the same site.
 
 ##### Mac OS
 
@@ -66,7 +66,7 @@ Note that the operating system image on the full version can be outdated if a ne
 
 ### Latest NOOBS release
 
-The latest NOOBS release is **v2.3.0**, released on **3rd March 2017**.
+The latest NOOBS release is **v2.7.0**, released on **14th March 2018**.
 
 (From NOOBS v1.4.0 onwards, NOOBS Lite only shares the first two digits of the version number, i.e. v1.4)
 

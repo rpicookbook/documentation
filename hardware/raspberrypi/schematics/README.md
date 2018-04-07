@@ -2,24 +2,30 @@
 
 Schematics for the various Raspberry Pi board versions:
 
+## Raspberry Pi 3 Model B+
+
+- [Revision 1.0](rpi_SCH_3bplus_1p0_reduced.pdf)
+
 ## Raspberry Pi 3 Model B
 
-- [Revision 1.2](RPI-3B-V1_2-SCHEMATIC-REDUCED.pdf)
+- [Revision 1.2](rpi_SCH_3b_1p2_reduced.pdf)
 
 ## Raspberry Pi 2 Model B
 
-- [Revision 1.2](RPI-2B-V1_2-REDUCED_SCHEMATIC.PDF)
+- [Revision 1.2](rpi_SCH_2b_1p2_reduced.pdf)
 
 ## Raspberry Pi Model B+
 
-- [Revision 1.2](Raspberry-Pi-B-Plus-V1.2-Schematics.pdf)
+- [Revision 1.2](rpi_SCH_1bplus_1p2_reduced.pdf)
 
-## Raspberry Pi 1 Model A and B
+## Raspberry Pi Model A+
 
-- [Revision 2.1](Raspberry-Pi-Rev-2.1-Model-AB-Schematics.pdf)
-- [Revision 2.0](Raspberry-Pi-Rev-2.0-Model-AB-Schematics.pdf)
-- [Revision 1.0](Raspberry-Pi-Rev-1.0-Model-AB-Schematics.pdf)
+- [Revision 1.1](rpi_SCH_1aplus_1p1_reduced.pdf)
 
 ## Raspberry Pi Zero
 
-- [Revision 1.3](RPI-ZERO-V1_3_reduced.pdf)
+- [Revision 1.3](rpi_SCH_Zero_1p3_reduced.pdf)
+
+## Raspberry Pi Zero W
+
+- [Revision 1.1](rpi_SCH_ZeroW_1p1_reduced.pdf)
